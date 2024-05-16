@@ -1,0 +1,79 @@
+
+@white:     #fff;
+@gray:     #999;
+
+a{
+  text-decoration:none;
+  color: #fff;
+  
+  &:hover{
+    color: @white;
+  }
+}
+
+// Nav styles
+
+#header-nav{
+  position: fixed;
+  top: 0;
+  display: block;
+  width: 100%;
+  background: black;
+  //background-color: rgba(0, 0, 0, 0.1);
+
+  // On Scroll animation
+    -webkit-transition:-webkit-transform 0.7s .3s ease;
+       -moz-transition:   -moz-transform 0.7s .3s ease;
+        -ms-transition:    -ms-transform 0.7s .3s ease;
+            transition:        transform 0.7s .3s ease;
+  
+  // Stop animation flicker
+  
+  -webkit-backface-visibility: hidden;
+   -webkit-transform: translate3d(0px, 0px, 0px);
+
+}
+
+#header-nav.hide-nav-bar{
+   -webkit-transform: translate(0, -100%);
+   -moz-transform: translate(0, -100%);
+   -ms-transform: translate(0, -100%);
+   transform: translate(0, -100%);
+   -webkit-backface-visibility: hidden;
+}
+  
+// Small screen styles
+
+a.menu-link {
+        float: right;
+            display: block;
+            padding: 1em;
+        }
+        nav[role=navigation] {
+            clear: right;
+            -webkit-transition: all 0.3s ease-out;  
+            -moz-transition: all 0.3s ease-out;
+            -ms-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+        }
+        .js nav[role=navigation] {
+            overflow: hidden;
+            max-height: 0;
+        }
+        nav[role=navigation].active {
+            max-height: 15em;
+        }
+        nav[role=navigation] ul {
+            margin: 0;
+            padding: 0;
+      float: left;
+        padding: 0.7em 0;
+        }
+        nav[role=navigation] li a {
+            display: block;
+            padding: 0.8em;
+//  padding: 0.4em;
+font-size: 0.9em;
+        }
+
