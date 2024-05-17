@@ -1,87 +1,44 @@
+document.addEventListener('DOMContentLoaded', function () {
+    // Handle Like Button
+    document.querySelector('.like-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        this.classList.toggle('liked');
+    });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const postBtn = document.getElementById('post-btn');
-    const postInput = document.getElementById('post-input');
-    const feed = document.getElementById('feed');
-    const userForm = document.getElementById('user-form');
-    const nameInput = document.getElementById('name');
-    const surnameInput = document.getElementById('surname');
+    // Handle Comment Button
+    document.querySelector('.comment-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector('.comments-section').style.display = 'block';
+    });
 
-    postBtn.addEventListener('click', () => {
-        const postContent = postInput.value.trim();
-        const userName = nameInput.value.trim();
-        const userSurname = surnameInput.value.trim();
-
-        if (postContent && userName && userSurname) {
-            addPostToFeed(postContent, `${userName} ${userSurname}`);
-            postInput.value = '';
-        } else {
-            alert('Please enter your name, surname, and a post.');
+    // Handle Comment Submit Button
+    document.querySelector('.comment-submit-btn').addEventListener('click', function () {
+        const commentInput = document.querySelector('.comment-input');
+        const commentText = commentInput.value.trim();
+        if (commentText) {
+            const comment = document.createElement('div');
+            comment.className = 'comment';
+            comment.innerText = commentText;
+            document.querySelector('.comments-list').appendChild(comment);
+            commentInput.value = '';
         }
     });
 
-    function addPostToFeed(content, user) {
-        const postDiv = document.createElement('div');
-        postDiv.classList.add('post');
+    // Handle Form Submission
+    document.getElementById('post-btn').addEventListener('click', function () {
+        const name = document.getElementById('name').value.trim();
+        const surname = document.getElementById('surname').value.trim();
 
-        postDiv.innerHTML = `
-            <p><strong>${user}</strong></p>
-            <p>${content}</p>
-            <div class="post-actions">
-                <a href="#" class="like-btn"><i class='bx bxs-heart'></i> Like</a>
-                <a href="#" class="comment-btn"><i class='bx bx-message-rounded-dots'></i> Comment</a>
-                <a href="#" class="share-btn"><i class='bx bx-share'></i> Share</a>
-                <a href="#" class="save-btn"><i class='bx bxs-bookmark'></i> Save</a>
-            </div>
-            <div class="comments-section">
-                <input type="text" class="comment-input" placeholder="Add a comment...">
-                <button class="comment-submit-btn">Submit</button>
-                <div class="comments-list"></div>
-            </div>
-        `;
-
-        const likeBtn = postDiv.querySelector('.like-btn');
-        const commentBtn = postDiv.querySelector('.comment-btn');
-        const commentInput = postDiv.querySelector('.comment-input');
-        const commentSubmitBtn = postDiv.querySelector('.comment-submit-btn');
-        const commentsSection = postDiv.querySelector('.comments-section');
-        const commentsList = postDiv.querySelector('.comments-list');
-
-        likeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            likeBtn.classList.toggle('liked');
-            if (!likeBtn.classList.contains('liked')) {
-                likeBtn.innerHTML = `<i class='bx bxs-heart'></i> Like`;
-            } else {
-                likeBtn.innerHTML = `<i class='bx bxs-heart'></i> Liked by ${user}`;
-            }
-        });
-
-        commentBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            commentsSection.style.display = commentsSection.style.display === 'block' ? 'none' : 'block';
-            commentInput.focus();
-        });
-
-        commentSubmitBtn.addEventListener('click', () => {
-            const commentText = commentInput.value.trim();
-            if (commentText) {
-                const commentDiv = document.createElement('div');
-                commentDiv.classList.add('comment');
-                commentDiv.innerHTML = `<strong>${user}</strong>: ${commentText} <button class="reply-btn">Reply</button>`;
-                commentsList.appendChild(commentDiv);
-                commentInput.value = '';
-
-                const replyBtn = commentDiv.querySelector('.reply-btn');
-                replyBtn.addEventListener('click', () => {
-                    commentInput.focus();
-                    commentInput.value = `@${user.split(' ')[0]} `;
-                });
-            }
-        });
-
-        feed.prepend(postDiv);
-    }
+        if (name && surname) {
+            const userInfo = `Name: ${name}\nSurname: ${surname}\n\n`;
+            const blob = new Blob([userInfo], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'user_info.txt';
+            link.click();
+            alert('User information saved successfully.');
+        } else {
+            alert('Please fill in all fields.');
+        }
+    });
 });
-
-
